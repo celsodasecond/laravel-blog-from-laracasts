@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Post;
+use Illuminate\Support\Facades\File;
+use Spatie\YamlFrontMatter\YamlFrontMatter;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +17,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+
+    $files = File::files(resource_path("posts/"));
+    // $document = YamlFrontMatter::parse(resource_path('posts/my-fourth-post.html'));
+
+    // dd($document);
+
+
+    // return view('posts', [
+    //     'posts' => Post::all()
+    // ]);
 });
+
+Route::get('posts/{post}', function ($slug) {
+    // Find a post by its slug and pass it to a view called 'post'
+
+    
+    return view('post', ['post' => Post::find($slug)]);
+
+})->where('post', '[A-z_\-]+');
